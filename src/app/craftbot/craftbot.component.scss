@@ -1,0 +1,45 @@
+:host {
+  display: block;
+  max-width: 90%;
+  margin: 30px auto;
+}
+.amount {
+  text-align: right;
+}
+.icon-map {
+  &.survival {
+    background-image: url('/assets/scrap_mechanic_gamedir/IconMapSurvival.png');
+  }
+  &.other {
+    background-image: url('/assets/scrap_mechanic_gamedir/IconMap.png');
+  }
+  height: 96px;
+  width: 96px;
+
+  &.icon-xs {
+    zoom: 0.3;
+  }
+
+  &.icon-m {
+    zoom: 0.5;
+    transform: translateX(-32%);
+  }
+
+  &.icon-l {
+    zoom: 0.75;
+  }
+
+  &.icon-xl {
+    zoom: 1;
+  }
+}
+
+.card {
+  cursor: pointer;
+}
+
+.item-list {
+  height: 70vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}

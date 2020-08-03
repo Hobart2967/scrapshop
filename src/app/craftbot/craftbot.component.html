@@ -1,0 +1,103 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <div class="row">
+          <div class="col">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Search:</span>
+              </div>
+              <input type="text" class="form-control" placeholder="Item name..." aria-label="Item name.." aria-describedby="basic-addon1" [(ngModel)]="searchTerm">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-4 item-list">
+        <div class="row" *ngIf="translations && craftbotItems && iconMap">
+          <div class="card col-2 m-1" [ngClass]="{'bg-dark': currentItem && currentItem.id === item.itemId }"
+               *ngFor="let item of craftbotItems | filterBy:translations:searchTerm; let i = index"
+               (click)="currentItem = {id: item.itemId, index: i}">
+            <div class="card-body">
+              <div [style.background-position]="iconMap[item.itemId].position" class="icon-map icon-m" [ngClass]="iconMap[item.itemId].mapType" *ngIf="iconMap[item.itemId]"></div>
+  <!--            <b>
+                <span [innerText]="item.quantity || 1"></span>
+                <span>x&nbsp;</span>
+                <span [innerText]="translations[item.itemId].title"></span>
+              </b><br>
+              <ul>
+                <li *ngFor="let ingredient of item.ingredientList">
+                  <span [innerText]="ingredient.quantity"></span>
+                  <span>x&nbsp;</span>
+                  <span [innerText]="translations[ingredient.itemId].title"></span>
+                </li>
+              </ul>-->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-3">
+        <div class="card" *ngIf="currentItem">
+          <div class="card-body">
+            <h5 class="card-title" [innerText]="translations[currentItem.id].title"></h5>
+            <h6 class="card-subtitle mb-2 text-muted">
+              <span [innerText]="craftbotItems[currentItem.index].quantity || 1"></span>
+              <span>&nbsp;piece(s)</span>
+            </h6>
+            <div class="card-text">
+              <div [style.background-position]="iconMap[currentItem.id].position" class="icon-map icon-xl" [ngClass]="iconMap[currentItem.id].mapType" *ngIf="iconMap[currentItem.id]"></div>
+            </div>
+            <a (click)="addToCart(currentItem.id)" class="btn btn-primary">Add to cart</a>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-5">
+        <h3>Your cart</h3>
+        <div class="card" *ngIf="currentItem">
+          <div class="card-body">
+            <ng-container *ngFor="let cartItem of cart | async">
+              <div class="row mb-1" *ngIf="cartItem.orderedQuantity > 0">
+                <div class="col-auto">
+                  <div [style.background-position]="iconMap[cartItem.itemId].position" class="icon-map icon-xs" [ngClass]="iconMap[cartItem.itemId].mapType" *ngIf="iconMap[cartItem.itemId]"></div>
+                </div>
+                <div class="col-2 amount">
+                  <span [innerText]="cartItem.orderedQuantity || cartItem.quantity || 1"></span>
+                </div>
+                <div class="col">
+                  <span [innerText]="translations[cartItem.itemId].title"></span>
+                </div>
+                <div class="col-auto">
+                  <a class="btn btn-primary mr-1" (click)="decreaseAmount(cartItem)">-<span [innerText]="cartItem.quantity || 1"></span></a>
+                  <a class="btn btn-primary" (click)="increaseAmount(cartItem)">+<span [innerText]="cartItem.quantity || 1"></span></a>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+        <h3>Your farm list</h3>
+        <div class="card">
+          <div class="card-body">
+            <ng-container *ngFor="let cartItem of materialList | async">
+              <div class="row mb-1" *ngIf="cartItem.quantity">
+                <div class="col-auto">
+                  <div [style.background-position]="iconMap[cartItem.itemId].position" class="icon-map icon-xs" [ngClass]="iconMap[cartItem.itemId].mapType" *ngIf="iconMap[cartItem.itemId]"></div>
+                </div>
+                <div class="col-2 amount">
+                  <span [innerText]="cartItem.quantity"></span>
+                </div>
+                <div class="col">
+                  <span [innerText]="translations[cartItem.itemId].title"></span>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
